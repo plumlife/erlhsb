@@ -1,0 +1,2 @@
+-record(rgb, { red, green, blue }).
+-record(hsb, { hue, saturation, brightness }).
