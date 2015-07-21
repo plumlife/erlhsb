@@ -5,7 +5,7 @@
 -include_lib("hsb.hrl").
 
 -spec from_rgb(#rgb{}) -> #hsb{}.
-from_rgb(#rgb{ red=R, green=G, blue=B }=RGB) ->
+from_rgb(#rgb{ red=R, green=G, blue=B }) ->
     
     %% Initialize RGB
     Red   = R / 255,
@@ -18,12 +18,19 @@ from_rgb(#rgb{ red=R, green=G, blue=B }=RGB) ->
     
     B = Max,
 
-    {H, S} = rgb_to_hsb({Min, Max, Delta}, {Red, Green, Blue}),
-    #hsb{ hue=H, saturation=S, brightness=V}.
+    {H, S} = rgb_to_hsb({Max, Delta}, {Red, Green, Blue}),
+    #hsb{ hue=H, saturation=S, brightness=B}.
 
-rgb_to_hsb({_, _, 0}, _) ->
-    {H, S};
-rgb_to_hsb({Min, Max, Delta}, {Red, Green, Blue}) ->
+-spec rgb_to_hsb({ Max::integer()
+                 , Del::integer()
+                 },
+                 { Red::integer()
+                 , Green::integer()
+                 , Blue::integer()
+                 }) -> {Huge::integer(), Saturation::integer()}.
+rgb_to_hsb({_, 0}, _) ->
+    {0, 0};
+rgb_to_hsb({Max, Delta}, {Red, Green, Blue}) ->
     S = Delta / Max,
     
     DeltaRed   = ( ( ( Max - Red   ) / 6 ) + ( Delta / 2 ) ) / Delta,
