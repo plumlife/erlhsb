@@ -16,10 +16,10 @@ from_rgb(#rgb{ red=R, green=G, blue=B }) ->
     Max = lists:max([Red, Green, Blue]),
     Delta = Max - Min,
     
-    B = Max,
+    Brightness = Max,
 
     {H, S} = rgb_to_hsb({Max, Delta}, {Red, Green, Blue}),
-    #hsb{ hue=H, saturation=S, brightness=B}.
+    #hsb{ hue=H, saturation=S, brightness=Brightness}.
 
 -spec rgb_to_hsb({ Max::integer()
                  , Del::integer()
@@ -52,9 +52,14 @@ rgb_delta_to_hsb(Max, {DeltaRed, DeltaGreen, _}, {_, _, Blue})
     H = ( 2 / 3 ) + DeltaGreen - DeltaRed,
     increment_hue(H).
 
-increment_hue(H)
-  when H < 0 ->
-    H + 1;
-increment_hue(H)
-  when H > 1 ->
-    H - 1.
+increment_hue(H) ->
+    if
+        H < 0 ->
+            H + 1;
+        H < 0.0 ->
+            H + 1.0;
+        H > 1 ->
+            H - 1;
+        H > 1.0 ->
+            H - 1.0
+    end.
