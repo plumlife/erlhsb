@@ -2,7 +2,11 @@
 
 -export([ rgb2hsb/1, hsb2rgb/1 ]).
 
--include_lib("hsb.hrl").
+-include("hsb.hrl").
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
 
 %% ===================================================================
 %% RGB to HSB functions
@@ -108,3 +112,12 @@ build_hsb(4, {V1, _, V3}, {_, _, V}) ->
     {V3, V1, V};
 build_hsb(_, {V1, V2, _}, {_, _, V}) ->
     {V, V1, V2}.
+
+-ifdef(TEST).
+
+rgb_to_hsb_test() ->
+    RGB1 = #rgb{ red=255, green=14, blue=20 },
+    RGB2 = hsb2rgb(rgb2hsb(RGB1)),
+    ?assert(RGB1 == RGB2).
+
+-endif.
