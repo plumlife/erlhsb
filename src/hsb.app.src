@@ -6,7 +6,6 @@
    [kernel
    ,stdlib
    ]}
- ,{mod, { hsb, []}},
  ,{env,[]}
  ,{modules, []}
  ]}.
