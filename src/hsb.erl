@@ -120,4 +120,9 @@ rgb_to_hsb_test() ->
     RGB2 = hsb2rgb(rgb2hsb(RGB1)),
     ?assert(RGB1 == RGB2).
 
+rgb_to_hsb_intensity_test() ->
+    RGB1 = #rgb{ red=255, green=14, blue=20 },
+    HSB0 = rgb2hsb(RGB1),
+    HSB1 = HSB0#hsb{ brightness = 0.3 },
+    hsb2rgb(HSB1).
 -endif.
