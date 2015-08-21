@@ -38,6 +38,8 @@ rgb2hsb(#rgb{ red=R, green=G, blue=B }) ->
                  }) -> {Huge::integer(), Saturation::integer()}.
 rgb_to_hsb({_, 0}, _) ->
     {0, 0};
+rgb_to_hsb({0.0, 0.0}, {_, _, _}) ->
+    {0.0, 0.0};
 rgb_to_hsb({Max, Delta}, {Red, Green, Blue}) ->
     S = Delta / Max,
     
@@ -122,6 +124,12 @@ rgb_to_hsb_test() ->
 
 rgb_to_hsb_intensity_test() ->
     RGB1 = #rgb{ red=255, green=14, blue=20 },
+    HSB0 = rgb2hsb(RGB1),
+    HSB1 = HSB0#hsb{ brightness = 0.3 },
+    hsb2rgb(HSB1).
+
+rgb_to_hsb_zero_test() ->
+    RGB1 = #rgb{ red=0, green=0, blue=0 },
     HSB0 = rgb2hsb(RGB1),
     HSB1 = HSB0#hsb{ brightness = 0.3 },
     hsb2rgb(HSB1).
